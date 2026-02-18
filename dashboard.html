@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Dashboard | S4learnHub Pro</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <style>
+        :root {
+            --primary: #38bdf8;
+            --secondary: #818cf8;
+            --bg: #030712;
+            --glass: rgba(255, 255, 255, 0.03);
+            --glass-border: rgba(255, 255, 255, 0.08);
+            --text: #f8fafc;
+        }
+
+        /* Base Setup */
+        * { margin:0; padding:0; box-sizing:border-box; font-family:'Inter', system-ui, sans-serif; }
+
+        body { 
+            background: var(--bg); 
+            color: var(--text); 
+            min-height: 100vh;
+            overflow-x: hidden;
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(56, 189, 248, 0.08) 0%, transparent 40%),
+                radial-gradient(circle at 90% 80%, rgba(129, 140, 248, 0.08) 0%, transparent 40%);
+        }
+
+        /* Floating Background Shapes */
+        .orb {
+            position: fixed; width: 300px; height: 300px; border-radius: 50%;
+            filter: blur(80px); opacity: 0.1; z-index: -1;
+            animation: drift 15s infinite alternate ease-in-out;
+        }
+        .orb-1 { background: var(--primary); top: 10%; left: 10%; }
+        .orb-2 { background: var(--secondary); bottom: 10%; right: 10%; animation-delay: -5s; }
+
+        @keyframes drift {
+            from { transform: translate(0, 0); }
+            to { transform: translate(50px, 50px); }
+        }
+
+        /* Container */
+        .container { 
+            max-width: 1000px; 
+            margin: 80px auto; 
+            padding: 20px;
+            display: grid;
+            gap: 25px;
+        }
+
+        /* Glassmorphism Cards */
+        .card {
+            background: var(--glass);
+            border: 1px solid var(--glass-border);
+            padding: 40px;
+            border-radius: 24px;
+            backdrop-filter: blur(20px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            opacity: 0;
+            transform: translateY(40px) scale(0.98);
+            transition: all 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
+        }
+
+        .card.show {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+
+        .card:hover {
+            border-color: var(--primary);
+            background: rgba(255, 255, 255, 0.06);
+            transform: translateY(-5px);
+        }
+
+        h2 { 
+            font-size: 28px; 
+            margin-bottom: 10px; 
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        p { color: #94a3b8; line-height: 1.6; }
+
+        /* Welcome Header */
+        .welcome-section {
+            text-align: center;
+            margin-bottom: 40px;
+            animation: fadeIn 1s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+
+    <div class="container">
+        <div class="welcome-section">
+            <h1 style="font-size: 42px; font-weight: 800; letter-spacing: -1px;">Learning Dashboard</h1>
+            <p>Welcome back! Your collaborative journey continues here.</p>
+        </div>
+
+        <div class="card">
+            <h2>Active Topics</h2>
+            <p>Explore ongoing student-teacher discussions and live chat forums. Stay updated with the latest educational trends and shared resources.</p>
+        </div>
+
+        <div class="card">
+            <h2>Resource Hub</h2>
+            <p>Access and share files instantly with your peers. Powered by EduChat Ultra technology for 3x faster knowledge exchange.</p>
+        </div>
+
+        <div class="card">
+            <h2>Upcoming Sessions</h2>
+            <p>Never miss a collaborative learning event. Your schedule and live meeting links will appear here based on your role.</p>
+        </div>
+    </div>
+
+    <script>
+        const cards = document.querySelectorAll('.card');
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach((entry, index) => {
+                if (entry.isIntersecting) {
+                    // Staggered entrance animation
+                    setTimeout(() => {
+                        entry.target.classList.add('show');
+                    }, index * 150);
+                }
+            });
+        }, { threshold: 0.1 });
+
+        cards.forEach(card => observer.observe(card));
+    </script>
+</body>
+</html>
